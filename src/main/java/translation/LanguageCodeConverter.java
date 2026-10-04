@@ -43,7 +43,10 @@ public class LanguageCodeConverter {
             iterator.next(); // skip the first line
             while (iterator.hasNext()) {
                 String line = iterator.next();
-                String[] split = line.trim().split("\\s+(?=\\S+$)", 2);
+                String[] split = line.split("\t");
+                // well, I've been misleading by chatGPT, looks like we have a much easier method to split...
+                // but I guess we can learn some new technique lol. Below are my previous method and explanation.
+                // String[] split = line.trim().split("\\s+(?=\\S+$)", 2);
                 // Split the line at the whitespace before the final token, so language names
                 // containing spaces remain intact.
                 // .trim() means remove leading and trailing whitespace,
