@@ -24,6 +24,7 @@ public class LanguageCodeConverter {
      * in the resources folder.
      */
     public LanguageCodeConverter() {
+
         this("language-codes.txt");
     }
 
@@ -42,6 +43,33 @@ public class LanguageCodeConverter {
             iterator.next(); // skip the first line
             while (iterator.hasNext()) {
                 String line = iterator.next();
+                String[] split = line.trim().split("\\s+(?=\\S+$)", 2);
+                // Split the line at the whitespace before the final token, so language names
+                // containing spaces remain intact.
+                // .trim() means remove leading and trailing whitespace,
+                // .split(...) separates the line according to the specified regex pattern.
+                // with specific conditions.
+                // regex explanations:
+                // 1. "\\s+" matches one or more whitespace characters.
+                //      e.g., Canada   ca. There are a Tab(> one whitespace) between them.
+                // 2. "(?=\\S+$)" ensures we only split at the whitespace before the final token.
+                //      ( ： start of the lookahead.
+                //      ?=xxx : is a positive lookahead, the following pattern must match the condition xxx,
+                //              but it is not consumed as part of the match.
+                //      \S : one non-whitespace character
+                //      + : one or more of the previous item, so \S+ indicates one or more of the non-whitespace char.
+                //      $ : end of the String.
+                //      ) : end of the lookahead.
+                //      (?=\S+$) means: from the current position, the rest of the string must consist of one or
+                //      more non-whitespace characters all the way to the end.
+                //      e.g.,Catalan, Valencian    ca. There is a space between "Catalan," and "Valencian",
+                //      and some space between "Valencian" and "ca". But we only want "ca" to be our language code,
+                //      which is also the final unempty token in this line
+                // limit explanation: The limit of 2 ensures that the line is split into at most two parts.
+                String language = split[0];
+                String code = split[1];
+                languageCodeToLanguage.put(code, language);
+                languageToLanguageCode.put(language, code);
                 // TODO Task A: use line to populate the instance variables
             }
 
@@ -57,7 +85,7 @@ public class LanguageCodeConverter {
      */
     public String fromLanguageCode(String code) {
         // TODO Task A: update this code to use the correct instance variable to return the appropriate value
-        return code;
+        return languageCodeToLanguage.get(code);
     }
 
     /**
@@ -67,7 +95,7 @@ public class LanguageCodeConverter {
      */
     public String fromLanguage(String language) {
         // TODO Task A: update this code to use the correct instance variable to return the appropriate value
-        return language;
+        return languageToLanguageCode.get(language);
     }
 
     /**
