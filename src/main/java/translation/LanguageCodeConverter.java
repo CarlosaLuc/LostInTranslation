@@ -62,8 +62,8 @@ public class LanguageCodeConverter {
                 //      ) : end of the lookahead.
                 //      (?=\S+$) means: from the current position, the rest of the string must consist of one or
                 //      more non-whitespace characters all the way to the end.
-                //      e.g.,Catalan, Valencian    ca. There is a space between "Catalan," and "Valencian",
-                //      and some space between "Valencian" and "ca". But we only want "ca" to be our language code,
+                //      e.g.,Central Khmer	km. There is a space between "Central" and "Khmer",
+                //      and some space between "Khmer" and "km". But we only want "km" to be our language code,
                 //      which is also the final unempty token in this line
                 // limit explanation: The limit of 2 ensures that the line is split into at most two parts.
                 String language = split[0];
@@ -86,6 +86,15 @@ public class LanguageCodeConverter {
     public String fromLanguageCode(String code) {
         // TODO Task A: update this code to use the correct instance variable to return the appropriate value
         return languageCodeToLanguage.get(code);
+        // languageCodeToLanguage is a Map<String, String>, which is something like:
+        //                      {
+        //                        "code1" -> "language1",
+        //                        "code2" -> "language2"
+        //                        ...
+        //                       }
+        // key -> value.For here, "code" is the key and "language" is the value.
+        // So for this task, we want to get the corresponding value "language" for the key "code",
+        // we just need to use map.get(key)
     }
 
     /**
@@ -96,6 +105,7 @@ public class LanguageCodeConverter {
     public String fromLanguage(String language) {
         // TODO Task A: update this code to use the correct instance variable to return the appropriate value
         return languageToLanguageCode.get(language);
+        // Same method as fromLanguageCode function.
     }
 
     /**
